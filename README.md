@@ -2,10 +2,67 @@
 
 This post describes oic-project[1] cron used to schedule jobs to run periodically at fixed times. Here are the list of jobs:
 - Start hosts
-- Shutdown hosts
+- Stop hosts
+- Start HUE
+- Start Jupyter
 - Start Ambari services
-- 
 
+
+> Start cluster hosts at 9:01 `_Monitoring host [instance-1]_`  
+
+```sh
+# Configure crontab
+export VISUAL=nano
+crontab -e 
+
+# Add the following content, save and quit
+1 7 * * * gcloud compute instances start hadoop-m --zone europe-west1-b
+1 7 * * * gcloud compute instances start hadoop-w-0 --zone europe-west1-b
+1 7 * * * gcloud compute instances start hadoop-w-1 --zone europe-west1-b
+1 7 * * * gcloud compute instances start hadoop-w-2 --zone europe-west1-b
+1 7 * * * gcloud compute instances start hadoop-w-3 --zone europe-west1-b
+
+``` 
+
+> Stop cluster hosts after 20:00:00 `_Monitoring host [instance-1]_`  
+
+```sh
+# Configure crontab
+export VISUAL=nano
+crontab -e 
+
+# Add the following content, save and quit
+1 18 * * * gcloud compute instances stop hadoop-m --zone europe-west1-b
+1 18 * * * gcloud compute instances stop hadoop-w-0 --zone europe-west1-b
+1 18 * * * gcloud compute instances stop hadoop-w-1 --zone europe-west1-b
+1 18 * * * gcloud compute instances stop hadoop-w-2 --zone europe-west1-b
+1 18 * * * gcloud compute instances stop hadoop-w-3 --zone europe-west1-b
+
+``` 
+
+> Start HUE on startup `_HDP Client Node [hadoop-w-3]_`  
+
+```sh
+# Configure crontab
+export VISUAL=nano
+crontab -e 
+
+# Add the following content, save and quit
+@reboot sudo /etc/init.d/hue start
+
+``` 
+
+> Start Jupyter on startup `_HDP Client Node [hadoop-w-3]_`  
+
+```sh
+# Configure crontab
+export VISUAL=nano
+crontab -e 
+
+# Add the following content, save and quit
+@reboot nohup sudo /usr/bin/python3.5 -m jupyterhub -f /home/agambo/jupyterhub_config.py &
+
+``` 
 
 > Start Ambari services on cluster startup `_HDP Master Node [hadoop-m]_`
 
@@ -40,6 +97,5 @@ crontab -e
 
 ``` 
 
-> dd  
 
 
