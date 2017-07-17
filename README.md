@@ -60,7 +60,7 @@ export VISUAL=nano
 crontab -e 
 
 # Add the following content, save and quit
-@reboot nohup sudo /usr/bin/python3.5 -m jupyterhub -f /home/agambo/jupyterhub_config.py &
+@reboot nohup sudo /usr/bin/python3.4 -m jupyterhub -f /home/agambo/jupyterhub_config.py &
 
 ``` 
 
